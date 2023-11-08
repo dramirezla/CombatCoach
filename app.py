@@ -21,9 +21,9 @@ with formulario("Formulario"):
     correo = st.text_input("Correo electrónico")
     edad = col1.text_input("Edad")
     peso = col2.text_input("Peso en KG")
-    altura = st.text_input("Peso en CM")
+    altura = col1.text_input("Altura en CM")
     # Proximamente ms opciones
-    intereses = st.selectbox("Selecciona tu interes en la aplicacion",["Boxeo","Muay thai"])
+    intereses = col2.selectbox("Selecciona tu interes en la aplicacion",["Boxeo","Muay thai"])
     acepta_politicas = st.checkbox(
         "Acepto las políticas de tratamiento de datos personales"
     )
@@ -83,7 +83,7 @@ Nos reservamos el derecho de actualizar o modificar esta Política en cualquier 
 
 ## 9. Contacto
 
-Si tienes preguntas, inquietudes o solicitudes relacionadas con esta Política de Tratamiento de Datos Personales, contáctanos a través de [tu correo electrónico de contacto].
+Si tienes preguntas, inquietudes o solicitudes relacionadas con esta Política de Tratamiento de Datos Personales, contáctanos a través de dramirezla@unal.edu.co.
 
 Fecha de entrada en vigor: Noviembre 8 del 2023
 """
