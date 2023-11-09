@@ -1,4 +1,6 @@
 import streamlit as st
+import pandas as pd
+import numpy as np
 
 # Título
 st.title("CombatCoach")
@@ -29,7 +31,15 @@ with formulario("Formulario"):
     )
 
     # Agregamos un botón de envío
-    st.form_submit_button("Registrarse")
+    boton = st.form_submit_button("Registrarse")
+    
+if boton:
+    datos_usuario = np.asarray([p_nombre, p_apellido, correo, edad, peso, altura, intereses])
+    if datos_usuario.size != 7 or acepta_politicas == False:
+        st.write("Complete todos los campos porfavor")
+    else:    
+        st.write("Tus datos son los siguientes: ")
+        st.write(datos_usuario)
     
 politica_text = """
 # Política de Tratamiento de Datos Personales
@@ -91,5 +101,4 @@ Fecha de entrada en vigor: Noviembre 8 del 2023
 # Mostrar la política de tratamiento de datos personales en Markdown
 with st.expander("Ver Política de Tratamiento de Datos Personales"):
     st.markdown(politica_text)
-
-st.write(intereses)
+    
