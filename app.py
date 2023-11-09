@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import random
 
 # Título
 st.title("CombatCoach")
@@ -21,9 +22,9 @@ with formulario("Formulario"):
     p_nombre = col1.text_input("Primer nombre")
     p_apellido = col2.text_input("Primer apellido")
     correo = st.text_input("Correo electrónico")
-    edad = col1.text_input("Edad")
-    peso = col2.text_input("Peso en KG")
-    altura = col1.text_input("Altura en CM")
+    edad = col1.text_input("Edad")+ " Años"
+    peso = col2.text_input("Peso en KG")+ " KG"
+    altura = col1.text_input("Altura en CM")+ " CM"
     # Proximamente ms opciones
     intereses = col2.selectbox("Selecciona tu interes en la aplicacion",["Boxeo","Muay thai"])
     acepta_politicas = st.checkbox(
@@ -32,14 +33,6 @@ with formulario("Formulario"):
 
     # Agregamos un botón de envío
     boton = st.form_submit_button("Registrarse")
-    
-if boton:
-    datos_usuario = np.asarray([p_nombre, p_apellido, correo, edad, peso, altura, intereses])
-    if datos_usuario.size != 7 or acepta_politicas == False:
-        st.write("Complete todos los campos porfavor")
-    else:    
-        st.write("Tus datos son los siguientes: ")
-        st.write(datos_usuario)
     
 politica_text = """
 # Política de Tratamiento de Datos Personales
@@ -101,4 +94,47 @@ Fecha de entrada en vigor: Noviembre 8 del 2023
 # Mostrar la política de tratamiento de datos personales en Markdown
 with st.expander("Ver Política de Tratamiento de Datos Personales"):
     st.markdown(politica_text)
+
+if boton:
+    datos_usuario = np.asarray([p_nombre, p_apellido, correo, edad, peso, altura, intereses])
+    if p_nombre == "" or p_apellido == "" or correo == "" or edad == "" or peso == "" or altura == "" or intereses == "" or acepta_politicas == False:
+        st.write("Complete todos los campos por favor")
+    else: 
+        st.write("Tus datos son los siguientes: ")
+        st.write(datos_usuario)
     
+# Calculadora de combinaciones
+golpes_boxeo = ["jap","recto","cruzado izquierdo","cruzado derecho","uppercut izquierdo","uppercut derecho","cambio de guardia"]
+golpes_muay_thai = golpes_boxeo + ["codazo izquierdo","codazo derecho","rodillaso izquierdo","rodillaso derecha","patada lower frontal","patada media frontal","patada alta frontal","patada lower trasera","parada media trasera","patada alta trasera"]
+
+def generar_combinaciones(intereses, longitud):
+    golpes_disponibles = golpes_boxeo if intereses == "boxeo" else golpes_muay_thai
+    combinaciones = []
+
+    if longitud < 1:
+        return combinaciones
+
+    def generar_combinacion(actual_combinacion, restantes):
+        if len(actual_combinacion) == longitud:
+            combinaciones.append(" - ".join(actual_combinacion))
+            return
+
+        for golpe in golpes_disponibles:
+            if not actual_combinacion or actual_combinacion[-1] != golpe:
+                generar_combinacion(actual_combinacion + [golpe], restantes - 1)
+
+    generar_combinacion([], longitud)
+    return combinaciones
+
+st.title("Calculadora de Combinaciones de Golpes")
+
+longitud = st.slider("Longitud de la combinación", 1, 5)
+
+if st.button("Generar Combinación Aleatoria"):
+    combinaciones = generar_combinaciones(intereses, longitud)
+    if combinaciones:
+        combinacion_aleatoria = random.choice(combinaciones)
+        st.write(f"Combinación de {intereses} aleatoria de longitud {longitud}:")
+        st.write(combinacion_aleatoria)
+    else:
+        st.write("No hay combinaciones disponibles para la longitud seleccionada.")
