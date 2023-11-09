@@ -4,7 +4,7 @@ import numpy as np
 import random
 
 # Título
-st.title("CombatCoach")
+st.title("¡Bienvenido a CombatCoach!🥊🥋")
 
 # Descripción
 st.markdown("CombatCoach es tu compañero definitivo para el entrenamiento de boxeo y MMA. Nuestra aplicación te ofrece un plan de entrenamiento personalizado que se adapta a tu masa corporal y a tus intereses personales en el mundo de las artes marciales mixtas. Con CombatCoach, obtendrás un plan de entrenamiento diseñado específicamente para ti, lo que significa que puedes maximizar tus resultados y alcanzar tus metas de acondicionamiento físico de manera eficaz. Ya sea que seas un principiante o un luchador experimentado, CombatCoach tiene un plan perfecto para ti. ¡Prepárate para mejorar tus habilidades y alcanzar un nivel superior en el boxeo y MMA con CombatCoach!")
@@ -104,11 +104,30 @@ if boton:
         st.write(datos_usuario)
     
 # Calculadora de combinaciones
-golpes_boxeo = ["jap","recto","cruzado izquierdo","cruzado derecho","uppercut izquierdo","uppercut derecho","cambio de guardia"]
-golpes_muay_thai = golpes_boxeo + ["codazo izquierdo","codazo derecho","rodillaso izquierdo","rodillaso derecha","patada lower frontal","patada media frontal","patada alta frontal","patada lower trasera","parada media trasera","patada alta trasera"]
+golpes_boxeo = [
+    "Jab 👊",
+    "Recto 🤜",
+    "Gancho Izquierdo 🥊",
+    "Gancho Derecho 🥊",
+    "Uppercut Izquierdo 💥",
+    "Uppercut Derecho 💥",
+    "Cambio de guardia 🥋",
+]
 
+golpes_muay_thai = golpes_boxeo + [
+    "Codazo Izquierdo 💢",
+    "Codazo Derecho 💢",
+    "Rodillazo Izquierdo 🦵",
+    "Rodillazo Derecho 🦵",
+    "Patada Baja Frontal 🦵",
+    "Patada Media Frontal 🦵",
+    "Patada Alta Frontal 🦵",
+    "Patada Baja Trasera 🦵",
+    "Patada Media Trasera 🦵",
+    "Patada Alta Trasera 🦵",
+]
 def generar_combinaciones(intereses, longitud):
-    golpes_disponibles = golpes_boxeo if intereses == "boxeo" else golpes_muay_thai
+    golpes_disponibles = golpes_boxeo if intereses == "Boxeo" else golpes_muay_thai
     combinaciones = []
 
     if longitud < 1:
@@ -126,15 +145,22 @@ def generar_combinaciones(intereses, longitud):
     generar_combinacion([], longitud)
     return combinaciones
 
-st.title("Calculadora de Combinaciones de Golpes")
+st.title("🥊 Calculadora de Combinaciones de Golpes 🥋")
+st.markdown("¡Bienvenido a la Calculadora de Combinaciones de Golpes de CombatCoach! Esta herramienta te ayudará a generar combinaciones de golpes emocionantes y personalizadas para tus entrenamientos de boxeo y muay thai. Tanto si eres un principiante como un luchador experimentado, esta calculadora es perfecta para ti.")
+st.markdown("## ¿Cómo usar la calculadora?")
+st.markdown("1. **Selecciona tu interés:** Dependiendo de tu elección, se incluirán los golpes específicos para esa disciplina en las combinaciones.")
+st.markdown("2. **Longitud de la combinación:** Desliza el control deslizante para seleccionar la longitud de la combinación que deseas. Puedes elegir desde combinaciones cortas hasta combinaciones más largas y desafiantes.")
+st.markdown("3. **Genera tu combinación:** Haz clic en el botón 'Generar Combinación Aleatoria'. La calculadora generará al azar una emocionante combinación de golpes basada en tu interés y la longitud seleccionada.")
+st.markdown("4. **¡Ponte los guantes y a entrenar!** Una vez que se muestre tu combinación, ¡estás listo para ponerla en práctica en tus sesiones de entrenamiento de boxeo o muay thai! ¡Haz que cada golpe cuente!")
+st.markdown("¡Diviértete entrenando con las combinaciones únicas y desafiantes que te ofrece CombatCoach!")
 
 longitud = st.slider("Longitud de la combinación", 1, 5)
-
 if st.button("Generar Combinación Aleatoria"):
     combinaciones = generar_combinaciones(intereses, longitud)
     if combinaciones:
         combinacion_aleatoria = random.choice(combinaciones)
         st.write(f"Combinación de {intereses} aleatoria de longitud {longitud}:")
-        st.write(combinacion_aleatoria)
+        comb = combinacion_aleatoria.split(" - ")
+        st.write(pd.DataFrame(comb))
     else:
         st.write("No hay combinaciones disponibles para la longitud seleccionada.")
