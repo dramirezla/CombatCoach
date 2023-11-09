@@ -1,3 +1,4 @@
+# Importar las bibliotecas necesarias
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -6,8 +7,10 @@ import random
 # Título
 st.title("¡Bienvenido a CombatCoach!🥊🥋")
 
-# Descripción
-st.markdown("CombatCoach es tu compañero definitivo para el entrenamiento de boxeo y MMA. Nuestra aplicación te ofrece un plan de entrenamiento personalizado que se adapta a tu masa corporal y a tus intereses personales en el mundo de las artes marciales mixtas. Con CombatCoach, obtendrás un plan de entrenamiento diseñado específicamente para ti, lo que significa que puedes maximizar tus resultados y alcanzar tus metas de acondicionamiento físico de manera eficaz. Ya sea que seas un principiante o un luchador experimentado, CombatCoach tiene un plan perfecto para ti. ¡Prepárate para mejorar tus habilidades y alcanzar un nivel superior en el boxeo y MMA con CombatCoach!")
+# Descripción de la aplicacion
+st.markdown(
+    "CombatCoach es tu compañero definitivo para el entrenamiento de boxeo y MMA. Nuestra aplicación te ofrece un plan de entrenamiento personalizado que se adapta a tu masa corporal y a tus intereses personales en el mundo de las artes marciales mixtas. Con CombatCoach, obtendrás un plan de entrenamiento diseñado específicamente para ti, lo que significa que puedes maximizar tus resultados y alcanzar tus metas de acondicionamiento físico de manera eficaz. Ya sea que seas un principiante o un luchador experimentado, CombatCoach tiene un plan perfecto para ti. ¡Prepárate para mejorar tus habilidades y alcanzar un nivel superior en el boxeo y MMA con CombatCoach!"
+)
 
 
 formulario = st.form
@@ -22,18 +25,20 @@ with formulario("Formulario"):
     p_nombre = col1.text_input("Primer nombre")
     p_apellido = col2.text_input("Primer apellido")
     correo = st.text_input("Correo electrónico")
-    edad = col1.text_input("Edad")+ " Años"
-    peso = col2.text_input("Peso en KG")+ " KG"
-    altura = col1.text_input("Altura en CM")+ " CM"
+    edad = col1.text_input("Edad") + " Años"
+    peso = col2.text_input("Peso en KG") + " KG"
+    altura = col1.text_input("Altura en CM") + " CM"
     # Proximamente ms opciones
-    intereses = col2.selectbox("Selecciona tu interes en la aplicacion",["Boxeo","Muay thai"])
+    intereses = col2.selectbox(
+        "Selecciona tu interes en la aplicacion", ["Boxeo", "Muay thai"]
+    )
     acepta_politicas = st.checkbox(
         "Acepto las políticas de tratamiento de datos personales"
     )
 
     # Agregamos un botón de envío
     boton = st.form_submit_button("Registrarse")
-    
+
 politica_text = """
 # Política de Tratamiento de Datos Personales
 
@@ -95,15 +100,28 @@ Fecha de entrada en vigor: Noviembre 8 del 2023
 with st.expander("Ver Política de Tratamiento de Datos Personales"):
     st.markdown(politica_text)
 
+# Procesar el registro del usuario cuando se presione el botón
 if boton:
-    datos_usuario = np.asarray([p_nombre, p_apellido, correo, edad, peso, altura, intereses])
-    if p_nombre == "" or p_apellido == "" or correo == "" or edad == "" or peso == "" or altura == "" or intereses == "" or acepta_politicas == False:
+    datos_usuario = np.asarray(
+        [p_nombre, p_apellido, correo, edad, peso, altura, intereses]
+    )
+    if (
+        p_nombre == ""
+        or p_apellido == ""
+        or correo == ""
+        or edad == ""
+        or peso == ""
+        or altura == ""
+        or intereses == ""
+        or acepta_politicas == False
+    ):
         st.write("Complete todos los campos por favor")
-    else: 
+    else:
         st.write("Tus datos son los siguientes: ")
         st.write(datos_usuario)
-    
-# Calculadora de combinaciones
+
+
+# Definir una lista de golpes para boxeo y muay thai
 golpes_boxeo = [
     "Jab 👊",
     "Recto 🤜",
@@ -126,7 +144,14 @@ golpes_muay_thai = golpes_boxeo + [
     "Patada Media Trasera 🦵",
     "Patada Alta Trasera 🦵",
 ]
+
+# Función para generar combinaciones de golpes
 def generar_combinaciones(intereses, longitud):
+
+    """
+    Se genera las combinaciones de golpe posibles
+    """
+
     golpes_disponibles = golpes_boxeo if intereses == "Boxeo" else golpes_muay_thai
     combinaciones = []
 
@@ -145,16 +170,31 @@ def generar_combinaciones(intereses, longitud):
     generar_combinacion([], longitud)
     return combinaciones
 
-st.title("🥊 Calculadora de Combinaciones de Golpes 🥋")
-st.markdown("¡Bienvenido a la Calculadora de Combinaciones de Golpes de CombatCoach! Esta herramienta te ayudará a generar combinaciones de golpes emocionantes y personalizadas para tus entrenamientos de boxeo y muay thai. Tanto si eres un principiante como un luchador experimentado, esta calculadora es perfecta para ti.")
-st.markdown("## ¿Cómo usar la calculadora?")
-st.markdown("1. **Selecciona tu interés:** Dependiendo de tu elección, se incluirán los golpes específicos para esa disciplina en las combinaciones.")
-st.markdown("2. **Longitud de la combinación:** Desliza el control deslizante para seleccionar la longitud de la combinación que deseas. Puedes elegir desde combinaciones cortas hasta combinaciones más largas y desafiantes.")
-st.markdown("3. **Genera tu combinación:** Haz clic en el botón 'Generar Combinación Aleatoria'. La calculadora generará al azar una emocionante combinación de golpes basada en tu interés y la longitud seleccionada.")
-st.markdown("4. **¡Ponte los guantes y a entrenar!** Una vez que se muestre tu combinación, ¡estás listo para ponerla en práctica en tus sesiones de entrenamiento de boxeo o muay thai! ¡Haz que cada golpe cuente!")
-st.markdown("¡Diviértete entrenando con las combinaciones únicas y desafiantes que te ofrece CombatCoach!")
 
+# Título de la calculadora de combinaciones
+st.title("🥊 Calculadora de Combinaciones de Golpes 🥋")
+# Descripción de la calculadora
+st.markdown(
+    "¡Bienvenido a la Calculadora de Combinaciones de Golpes de CombatCoach! Esta herramienta te ayudará a generar combinaciones de golpes emocionantes y personalizadas para tus entrenamientos de boxeo y muay thai. Tanto si eres un principiante como un luchador experimentado, esta calculadora es perfecta para ti."
+)
+st.markdown("## ¿Cómo usar la calculadora?")
+st.markdown(
+    "¡Bienvenido a la Calculadora de Combinaciones de Golpes de CombatCoach! Esta herramienta te ayudará a generar combinaciones de golpes emocionantes y personalizadas para tus entrenamientos de boxeo y muay thai. Tanto si eres un principiante como un luchador experimentado, esta calculadora es perfecta para ti, ya que genera hasta aproximadamente **1'200.000** combinaciones posibles dependiendo de tu disciplina y la longitud de tu combinacion"
+)
+st.markdown(
+    "3. **Genera tu combinación:** Haz clic en el botón 'Generar Combinación Aleatoria'. La calculadora generará al azar una emocionante combinación de golpes basada en tu interés y la longitud seleccionada."
+)
+st.markdown(
+    "4. **¡Ponte los guantes y a entrenar!** Una vez que se muestre tu combinación, ¡estás listo para ponerla en práctica en tus sesiones de entrenamiento de boxeo o muay thai! ¡Haz que cada golpe cuente!"
+)
+st.markdown(
+    "¡Diviértete entrenando con las combinaciones únicas y desafiantes que te ofrece CombatCoach!"
+)
+
+# Control deslizante para seleccionar la longitud de la combinación
 longitud = st.slider("Longitud de la combinación", 1, 5)
+
+# Botón para generar una combinación aleatoria
 if st.button("Generar Combinación Aleatoria"):
     combinaciones = generar_combinaciones(intereses, longitud)
     if combinaciones:
